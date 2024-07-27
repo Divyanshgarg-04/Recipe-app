@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetUserID } from "../hooks/useGetUserID";
 import axios from "axios";
+import Receipe from "../components/Receipe";
 
 export const Home = () => {
   const [recipes, setRecipes] = useState([]);
@@ -46,30 +47,30 @@ export const Home = () => {
   };
 
   const isRecipeSaved = (id) => savedRecipes.includes(id);
-
+  console.log(recipes);
   return (
-    <div>
-      <h1>Recipes</h1>
-      <ul>
-        {recipes.map((recipe) => (
-          <li key={recipe._id}>
-            <div>
-              <h2>{recipe.name}</h2>
-              <button
-                onClick={() => saveRecipe(recipe._id)}
-                disabled={isRecipeSaved(recipe._id)}
-              >
-                {isRecipeSaved(recipe._id) ? "Saved" : "Save"}
-              </button>
-            </div>
-            <div className="instructions">
-              <p>{recipe.instructions}</p>
-            </div>
-            <img src={recipe.imageUrl} alt={recipe.name} />
-            <p>Cooking Time: {recipe.cookingTime} minutes</p>
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-row justify-center">
+      <div className="bg-gray-800 w-[40%] my-10 rounded-xl">
+        <div className="text-4xl font-semibold text-center my-4  text-white">
+          Recipe
+        </div>
+        <div className="text-center bg-gray-300 rounded-xl rounded-t-none">
+          <ul>
+            {recipes.map((recipe) => (
+              <Receipe
+                save={saveRecipe}
+                isSaved={isRecipeSaved}
+                key={recipe._id}
+                id={recipe._id}
+                heading={recipe.name}
+                instruction={recipe.instructions}
+                image={recipe.imageUrl}
+                CookingTime={recipe.coolingTime}
+              />
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
